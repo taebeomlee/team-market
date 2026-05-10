@@ -5,5 +5,7 @@
   "author": {
     "name": "taebeomlee"
   },
-  "homepage": "https://github.com/taebeomlee/team-market/tree/main/plugins/moodboard-plugin"
+  "repository": "https://github.com/taebeomlee/team-market",
+  "homepage": "https://github.com/taebeomlee/team-market/tree/main/plugins/moodboard-plugin",
+  "skills": "./skills"
 }
