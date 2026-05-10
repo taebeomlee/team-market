@@ -13,13 +13,7 @@
         "name": "taebeomlee"
       },
       "category": "productivity",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/taebeomlee/team-market.git",
-        "path": "plugins/productivity",
-        "ref": "main",
-        "sha": "c4b215adc254234f77571540b94404b988c158ab"
-      },
+      "source": "./plugins/productivity",
       "homepage": "https://github.com/taebeomlee/team-market/tree/main/plugins/productivity"
     },
     {
@@ -29,13 +23,7 @@
         "name": "taebeomlee"
       },
       "category": "productivity",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/taebeomlee/team-market.git",
-        "path": "plugins/moodboard-plugin",
-        "ref": "main",
-        "sha": "d2e6d6bd390f57bea42232e766472c88432e8e80"
-      },
+      "source": "./plugins/moodboard-plugin",
       "homepage": "https://github.com/taebeomlee/team-market/tree/main/plugins/moodboard-plugin"
     }
   ]
