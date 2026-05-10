@@ -1,0 +1,17 @@
+{
+  "market": "team-market",
+  "version": "1.0.0",
+  "description": "팀 공유 Claude 플러그인 마켓플레이스",
+  "plugins": [
+    {
+      "id": "productivity",
+      "name": "Productivity Tools",
+      "version": "1.0.0",
+      "description": "파일 정리 · 무드보드 수집 자동화 스킬 묶음",
+      "author": "taebeomlee",
+      "skills": ["moodboard", "sort-files"],
+      "mcp": ["playwright"],
+      "path": "plugins/productivity"
+    }
+  ]
+}
