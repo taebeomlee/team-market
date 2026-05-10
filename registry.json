@@ -13,5 +13,16 @@
       "mcp": ["playwright"],
       "path": "plugins/productivity"
     }
+  ,
+    {
+      "id": "moodboard-plugin",
+      "name": "Moodboard Plugin",
+      "version": "1.0.0",
+      "description": "키워드로 이미지를 수집해 ~/Downloads/ 에 저장하는 무드보드 스킬",
+      "author": "taebeomlee",
+      "skills": ["moodboard"],
+      "mcp": ["playwright"],
+      "path": "plugins/moodboard-plugin"
+    }
   ]
 }
