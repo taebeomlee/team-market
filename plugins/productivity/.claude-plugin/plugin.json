@@ -1,0 +1,9 @@
+{
+  "name": "productivity",
+  "version": "1.0.0",
+  "description": "파일 정리 · 무드보드 수집 자동화 스킬 묶음",
+  "author": {
+    "name": "taebeomlee"
+  },
+  "homepage": "https://github.com/taebeomlee/team-market/tree/main/plugins/productivity"
+}

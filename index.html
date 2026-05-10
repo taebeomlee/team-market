@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>team-market · Claude 플러그인 마켓플레이스</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      min-height: 100vh;
+    }
+
+    header {
+      border-bottom: 1px solid #30363d;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-icon { font-size: 24px; }
+    .logo-title { font-size: 18px; font-weight: 700; color: #f0f6fc; }
+    .logo-sub { font-size: 13px; color: #8b949e; margin-top: 2px; }
+
+    .header-btn {
+      background: #238636;
+      color: #fff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .header-btn:hover { background: #2ea043; }
+
+    main { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #8b949e;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: 16px;
+    }
+
+    .plugin-grid { display: grid; gap: 16px; }
+
+    .plugin-card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      transition: border-color .15s;
+    }
+    .plugin-card:hover { border-color: #58a6ff; }
+
+    .plugin-icon {
+      width: 44px; height: 44px;
+      background: #21262d;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .plugin-body { flex: 1; }
+    .plugin-name { font-size: 16px; font-weight: 700; color: #f0f6fc; }
+    .plugin-desc { font-size: 13px; color: #8b949e; margin-top: 4px; }
+
+    .plugin-meta {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px;
+    }
+    .tag {
+      font-size: 12px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+    .tag-skill { background: #1f3f6e; color: #79c0ff; }
+    .tag-mcp   { background: #2d1c3d; color: #d2a8ff; }
+    .tag-version { background: #21262d; color: #8b949e; }
+
+    .plugin-actions { display: flex; gap: 8px; align-items: center; margin-top: 14px; }
+
+    .btn-install {
+      background: #238636;
+      color: #fff;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-install:hover { background: #2ea043; }
+
+    .btn-detail {
+      background: transparent;
+      color: #58a6ff;
+      border: 1px solid #30363d;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-detail:hover { border-color: #58a6ff; }
+
+    /* Add Plugin Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.7);
+      z-index: 100;
+      align-items: center; justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 14px;
+      padding: 32px;
+      width: 100%; max-width: 540px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal h2 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    .modal p  { font-size: 13px; color: #8b949e; margin-bottom: 24px; }
+
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #c9d1d9; }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      color: #e6edf3;
+      padding: 8px 12px;
+      font-size: 14px;
+      outline: none;
+    }
+    .form-group input:focus, .form-group textarea:focus {
+      border-color: #58a6ff;
+    }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .modal-footer { display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; }
+
+    .btn-cancel {
+      background: transparent;
+      color: #8b949e;
+      border: 1px solid #30363d;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .btn-submit {
+      background: #238636;
+      color: #fff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-submit:hover { background: #2ea043; }
+
+    /* Install snippet modal */
+    .snippet-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 100; align-items: center; justify-content: center; }
+    .snippet-modal.open { display: flex; }
+    .snippet-box {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 14px;
+      padding: 28px;
+      width: 100%; max-width: 480px;
+    }
+    .snippet-box h3 { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+    .code-block {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-family: "SF Mono", monospace;
+      font-size: 13px;
+      color: #79c0ff;
+      margin-bottom: 8px;
+      user-select: all;
+    }
+    .code-hint { font-size: 12px; color: #8b949e; margin-bottom: 16px; }
+    .close-btn {
+      background: #21262d;
+      color: #e6edf3;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      float: right;
+    }
+
+    .empty { text-align: center; color: #8b949e; padding: 60px 0; font-size: 15px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <span class="logo-icon">📦</span>
+    <div>
+      <div class="logo-title">team-market</div>
+      <div class="logo-sub">Claude 플러그인 마켓플레이스</div>
+    </div>
+  </div>
+  <button class="header-btn" onclick="openAddModal()">＋ 플러그인 추가</button>
+</header>
+
+<main>
+  <div class="section-title">플러그인 목록</div>
+  <div class="plugin-grid" id="pluginGrid">
+    <div class="empty">registry.json 로딩 중…</div>
+  </div>
+</main>
+
+<!-- Install Snippet Modal -->
+<div class="snippet-modal" id="snippetModal">
+  <div class="snippet-box">
+    <h3>📥 설치 방법</h3>
+    <div class="code-block" id="snippetCmd"></div>
+    <div class="code-hint">Claude Code 에서 위 명령어를 입력하세요.</div>
+    <div class="code-block">/market install <span id="snippetId"></span></div>
+    <div class="code-hint">또는 /market 스킬로 설치</div>
+    <button class="close-btn" onclick="closeSnippet()">닫기</button>
+  </div>
+</div>
+
+<!-- Add Plugin Modal -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal">
+    <h2>📦 새 플러그인 추가</h2>
+    <p>정보를 입력하면 GitHub Issue로 등록 요청이 전송됩니다.</p>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>플러그인 ID *</label>
+        <input type="text" id="f-id" placeholder="my-plugin" />
+      </div>
+      <div class="form-group">
+        <label>버전</label>
+        <input type="text" id="f-version" placeholder="1.0.0" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>이름 *</label>
+      <input type="text" id="f-name" placeholder="My Plugin" />
+    </div>
+
+    <div class="form-group">
+      <label>설명 *</label>
+      <textarea id="f-desc" placeholder="이 플러그인이 무엇을 하는지 설명하세요"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>스킬 목록 (쉼표 구분)</label>
+      <input type="text" id="f-skills" placeholder="my-skill, another-skill" />
+    </div>
+
+    <div class="form-group">
+      <label>MCP 의존성 (쉼표 구분)</label>
+      <input type="text" id="f-mcp" placeholder="playwright" />
+    </div>
+
+    <div class="form-group">
+      <label>작성자</label>
+      <input type="text" id="f-author" placeholder="GitHub 유저명" />
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeAddModal()">취소</button>
+      <button class="btn-submit" onclick="submitPlugin()">GitHub Issue 등록</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const REGISTRY_URL = 'https://raw.githubusercontent.com/taebeomlee/team-market/main/registry.json';
+const GITHUB_REPO  = 'taebeomlee/team-market';
+
+const ICONS = {
+  productivity:     '🗂️',
+  'moodboard-plugin': '🖼️',
+  default:          '🔌'
+};
+
+async function loadPlugins() {
+  const grid = document.getElementById('pluginGrid');
+  try {
+    const res  = await fetch(REGISTRY_URL + '?t=' + Date.now());
+    const data = await res.json();
+    renderPlugins(data.plugins || []);
+  } catch(e) {
+    grid.innerHTML = '<div class="empty">registry.json 을 불러오지 못했습니다.</div>';
+  }
+}
+
+function renderPlugins(plugins) {
+  const grid = document.getElementById('pluginGrid');
+  if (!plugins.length) {
+    grid.innerHTML = '<div class="empty">등록된 플러그인이 없습니다.</div>';
+    return;
+  }
+  grid.innerHTML = plugins.map(p => `
+    <div class="plugin-card">
+      <div class="plugin-icon">${ICONS[p.id] || ICONS.default}</div>
+      <div class="plugin-body">
+        <div class="plugin-name">${p.name}</div>
+        <div class="plugin-desc">${p.description}</div>
+        <div class="plugin-meta">
+          <span class="tag tag-version">v${p.version}</span>
+          ${(p.skills||[]).map(s=>`<span class="tag tag-skill">/${s}</span>`).join('')}
+          ${(p.mcp||[]).map(m=>`<span class="tag tag-mcp">MCP: ${m}</span>`).join('')}
+        </div>
+        <div class="plugin-actions">
+          <button class="btn-install" onclick="showInstall('${p.id}')">설치 방법</button>
+          <a class="btn-detail" href="https://github.com/${GITHUB_REPO}/tree/main/${p.path}" target="_blank">소스 보기</a>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function showInstall(id) {
+  document.getElementById('snippetId').textContent = id;
+  document.getElementById('snippetCmd').textContent =
+    `git clone https://github.com/${GITHUB_REPO} ~/team-market`;
+  document.getElementById('snippetModal').classList.add('open');
+}
+function closeSnippet() {
+  document.getElementById('snippetModal').classList.remove('open');
+}
+
+function openAddModal()  { document.getElementById('addModal').classList.add('open'); }
+function closeAddModal() { document.getElementById('addModal').classList.remove('open'); }
+
+function submitPlugin() {
+  const id      = document.getElementById('f-id').value.trim();
+  const name    = document.getElementById('f-name').value.trim();
+  const desc    = document.getElementById('f-desc').value.trim();
+  const version = document.getElementById('f-version').value.trim() || '1.0.0';
+  const skills  = document.getElementById('f-skills').value.trim();
+  const mcp     = document.getElementById('f-mcp').value.trim();
+  const author  = document.getElementById('f-author').value.trim();
+
+  if (!id || !name || !desc) {
+    alert('ID, 이름, 설명은 필수입니다.');
+    return;
+  }
+
+  const body = [
+    `## 플러그인 등록 요청`,
+    ``,
+    `| 항목 | 내용 |`,
+    `|------|------|`,
+    `| ID | \`${id}\` |`,
+    `| 이름 | ${name} |`,
+    `| 버전 | ${version} |`,
+    `| 설명 | ${desc} |`,
+    `| 스킬 | ${skills || '-'} |`,
+    `| MCP | ${mcp || '-'} |`,
+    `| 작성자 | ${author || '-'} |`,
+  ].join('\n');
+
+  const url = `https://github.com/${GITHUB_REPO}/issues/new?title=${encodeURIComponent(`[plugin] ${id}`)}&body=${encodeURIComponent(body)}&labels=plugin-request`;
+  window.open(url, '_blank');
+  closeAddModal();
+}
+
+loadPlugins();
+</script>
+</body>
+</html>

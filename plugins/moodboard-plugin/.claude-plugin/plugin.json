@@ -1,0 +1,9 @@
+{
+  "name": "moodboard-plugin",
+  "version": "1.0.0",
+  "description": "키워드로 이미지를 수집해 ~/Downloads/ 에 저장하는 무드보드 스킬",
+  "author": {
+    "name": "taebeomlee"
+  },
+  "homepage": "https://github.com/taebeomlee/team-market/tree/main/plugins/moodboard-plugin"
+}

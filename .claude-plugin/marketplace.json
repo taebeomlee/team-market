@@ -1,0 +1,42 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "team-market",
+  "description": "팀 공유 Claude 플러그인 마켓플레이스",
+  "owner": {
+    "name": "taebeomlee"
+  },
+  "plugins": [
+    {
+      "name": "productivity",
+      "description": "파일 정리 · 무드보드 수집 자동화 스킬 묶음 (/moodboard, /sort-files)",
+      "author": {
+        "name": "taebeomlee"
+      },
+      "category": "productivity",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/taebeomlee/team-market.git",
+        "path": "plugins/productivity",
+        "ref": "main",
+        "sha": "c4b215adc254234f77571540b94404b988c158ab"
+      },
+      "homepage": "https://github.com/taebeomlee/team-market/tree/main/plugins/productivity"
+    },
+    {
+      "name": "moodboard-plugin",
+      "description": "키워드로 이미지를 수집해 ~/Downloads/ 에 저장하는 무드보드 스킬 (/moodboard)",
+      "author": {
+        "name": "taebeomlee"
+      },
+      "category": "productivity",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/taebeomlee/team-market.git",
+        "path": "plugins/moodboard-plugin",
+        "ref": "main",
+        "sha": "d2e6d6bd390f57bea42232e766472c88432e8e80"
+      },
+      "homepage": "https://github.com/taebeomlee/team-market/tree/main/plugins/moodboard-plugin"
+    }
+  ]
+}
